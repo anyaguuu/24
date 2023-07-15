@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Cards from './cards';
-import { VerifyButton, GenerateButton } from './buttonstyles';
+import { VerifyButton } from './buttonstyles';
 import { cardContainer, card } from './cardstyles';
 import { titleContainer, title } from './homestyles';
 
@@ -59,7 +59,6 @@ const App = () => {
   const handleVerify = () => {
     const canMake24 = verifyNums(nums);
     setResult(canMake24);
-    console.log(canMake24);
   };
 
   const resetVerify = () => {
@@ -68,7 +67,6 @@ const App = () => {
 
   const generateNewNums = () => {
     const newNums = getNums();
-    console.log('newNuns: ');
     setNums(newNums);
     resetVerify();
   };
@@ -86,9 +84,7 @@ const App = () => {
 
         <VerifyButton onVerify={handleVerify} />
         {result !== null && <p>{result ? 'Can make 24' : "Doesn't work"}</p>}
-        <GenerateButton onClick={generateNewNums}>
-          Generate New Numbers
-        </GenerateButton>
+        <button onClick={generateNewNums}>Generate New Numbers</button>
       </div>
     </div>
   );
