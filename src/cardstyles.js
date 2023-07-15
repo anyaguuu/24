@@ -5,14 +5,14 @@ export const cardContainer = {
 };
 
 export const card = {
-  width: '50px',
-  height: '50px',
-  margin: '0 5px',
+  width: '60px',
+  height: '60px',
+  margin: '0 5px 5px 5px',
   background: '#ccc',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  fontSize: '48px',
+  fontSize: '45px',
   fontWeight: 'bold',
   color: 'black',
 };

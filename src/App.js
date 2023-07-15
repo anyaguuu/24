@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Cards from './cards';
-import { VerifyButton } from './buttonstyles';
+import { VerifyButton, GenerateButton } from './buttonstyles';
 import { cardContainer, card } from './cardstyles';
-import { titleContainer, title } from './homestyles';
+import { titleContainer, title, resultContainer, result } from './homestyles';
+import { Button, getFilledInputUtilityClass } from '@mui/material';
 
 const generatePermutations = (arr, perm = [], result = []) => {
   if (arr.length === 0) {
@@ -56,13 +57,22 @@ const App = () => {
   const [nums, setNums] = useState([]);
   const [result, setResult] = useState(null);
 
-  const handleVerify = () => {
+  const handleVerify = (expr) => {
     const canMake24 = verifyNums(nums);
     setResult(canMake24);
   };
 
   const resetVerify = () => {
     setResult(null);
+  };
+
+  // test if expression user entered is correct
+  const verify2 = (expr) => {
+    if (eval(expr) === 24) {
+      console.log('YES WORKS!');
+    } else {
+      console.log('NO WRONG!');
+    }
   };
 
   const generateNewNums = () => {
@@ -82,9 +92,42 @@ const App = () => {
           <div style={card}>{nums[3]}</div>
         </div>
 
-        <VerifyButton onVerify={handleVerify} />
-        {result !== null && <p>{result ? 'Can make 24' : "Doesn't work"}</p>}
-        <button onClick={generateNewNums}>Generate New Numbers</button>
+        <Button
+          style={{
+            backgroundColor: '#f44336', // Green color
+            color: 'white',
+            borderRadius: '8px',
+            padding: '12px 24px',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+            margin: '10px',
+          }}
+          onClick={verify2}
+        >
+          Click to verify!
+        </Button>
+
+        <Button
+          style={{
+            backgroundColor: '#4caf50', // Green color
+            color: 'white',
+            borderRadius: '8px',
+            padding: '12px 24px',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+            margin: '10px',
+          }}
+          onClick={generateNewNums}
+        >
+          Generate New Numbers
+        </Button>
+        <div>
+          <div style={resultContainer}>
+            <h1 style={result}>HI</h1>
+          </div>
+        </div>
       </div>
     </div>
   );
