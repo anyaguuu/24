@@ -125,7 +125,13 @@ const App = () => {
         {result !== null && <DisplayResult result={result} />}
       </div>
 
-      <p style={styles.inspiredText}>Inspired by zawie &lt;3</p>
+      <span style={styles.inspiredText}>
+        inspired by{' '}
+        <a href="https://24.zawie.io" style={{ ...styles.link, color: '#777' }}>
+          zawie
+        </a>
+        &lt;3
+      </span>
     </div>
   );
 };
@@ -213,6 +219,9 @@ const styles = {
     fontWeight: 'bold',
     color: '#777',
     marginTop: '200px',
+  },
+  link: {
+    textDecoration: 'underline',
   },
 };
 
