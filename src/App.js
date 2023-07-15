@@ -46,12 +46,31 @@ const App = () => {
   const [result, setResult] = useState(null);
   const [userExpr, setUserExpr] = useState('');
   const [textValue, setTextValue] = useState('');
+  const [started, setStarted] = useState(false);
+
+  const checkAllNumsIncluded = () => {
+    const extractIntegers = (expression) => {
+      const regex = /\d+/g; // Regular expression to match one or more digits
+      const matches = expression.match(regex); // Array of matched digits
+      const integers = matches ? matches.map(Number) : []; // Convert matched strings to numbers
+      return integers;
+    };
+
+    const integers = extractIntegers(userExpr).sort();
+    console.log('integers: ' + integers);
+    console.log('nums: ' + nums.sort());
+    return integers.every((elem, idx) => elem === nums.sort()[idx]);
+  };
 
   const handleVerify = () => {
-    if (eval(userExpr) === 24) {
-      setResult(true);
-    } else {
-      setResult(false);
+    try {
+      if (eval(userExpr) === 24 && checkAllNumsIncluded()) {
+        setResult(true);
+      } else {
+        setResult(false);
+      }
+    } catch (e) {
+      setResult('Invalid input');
     }
   };
 
@@ -60,6 +79,7 @@ const App = () => {
   };
 
   const generateNewNums = () => {
+    setStarted(true);
     const newNums = getNums();
     setNums(newNums);
     setTextValue('');
@@ -83,6 +103,7 @@ const App = () => {
           label="Fill in expression"
           variant="outlined"
           value={textValue}
+          InputProps={{ readOnly: !started }}
           onChange={(e) => {
             setTextValue(e.target.value.toString());
             handleInput(e.target.value.toString());
@@ -103,6 +124,8 @@ const App = () => {
       <div style={styles.resultContainer}>
         {result !== null && <DisplayResult result={result} />}
       </div>
+
+      <p style={styles.inspiredText}>Inspired by zawie &lt;3</p>
     </div>
   );
 };
@@ -184,6 +207,12 @@ const styles = {
   },
   resultContainer: {
     textAlign: 'center',
+  },
+  inspiredText: {
+    fontSize: '16px',
+    fontWeight: 'bold',
+    color: '#777',
+    marginTop: '200px',
   },
 };
 

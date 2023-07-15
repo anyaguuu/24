@@ -5,13 +5,15 @@ const DisplayResult = ({ result }) => {
     textAlign: 'center',
     padding: '10px',
     borderRadius: '8px',
-    color: result ? 'blue' : 'red',
+    color: result === true ? 'blue' : 'red',
     backgroundColor: 'white',
   };
 
   return (
     <div>
-      <div style={textStyle}>{result ? 'Correct!' : 'Nope, try again'}</div>
+      <div style={textStyle}>
+        {result === true ? 'Correct!' : 'Nope, try again'}
+      </div>
     </div>
   );
 };
