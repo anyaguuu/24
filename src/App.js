@@ -9,6 +9,7 @@ import {
   result,
   inputContainer,
 } from './homestyles';
+import DisplayResult from './displayResult';
 import { Button, TextField } from '@mui/material';
 
 const generatePermutations = (arr, perm = [], result = []) => {
@@ -67,8 +68,10 @@ const App = () => {
   const handleVerify = () => {
     if (eval(userExpr) === 24) {
       console.log('YES!');
+      setResult(true);
     } else {
       console.log('NO, ', eval(userExpr));
+      setResult(false);
     }
   };
 
@@ -80,15 +83,6 @@ const App = () => {
     setResult(null);
   };
 
-  // test if expression user entered is correct
-  const verify2 = (expr) => {
-    if (eval(expr) === 24) {
-      console.log('YES WORKS!');
-    } else {
-      console.log('NO WRONG!, got ' + eval(expr));
-    }
-  };
-
   const generateNewNums = () => {
     const newNums = getNums();
     setNums(newNums);
@@ -98,7 +92,7 @@ const App = () => {
   return (
     <div>
       <div style={titleContainer}>
-        <h1 style={title}>24</h1>
+        <h1 style={title}>Play 24!</h1>
         <div style={cardContainer}>
           <div style={card}>{nums[0]}</div>
           <div style={card}>{nums[1]}</div>
@@ -150,11 +144,7 @@ const App = () => {
         >
           Generate New Numbers
         </Button>
-        <div>
-          <div style={resultContainer}>
-            <h1 style={result}>HI</h1>
-          </div>
-        </div>
+        <div>{result !== null && <DisplayResult result={result} />}</div>
       </div>
     </div>
   );
