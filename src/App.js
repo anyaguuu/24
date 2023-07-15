@@ -62,10 +62,18 @@ const verifyNums = (nums) => {
 const App = () => {
   const [nums, setNums] = useState([]);
   const [result, setResult] = useState(null);
+  const [userExpr, setUserExpr] = useState('');
 
-  const handleVerify = (expr) => {
-    const canMake24 = verifyNums(nums);
-    setResult(canMake24);
+  const handleVerify = () => {
+    if (eval(userExpr) === 24) {
+      console.log('YES!');
+    } else {
+      console.log('NO, ', eval(userExpr));
+    }
+  };
+
+  const handleInput = (expr) => {
+    setUserExpr(expr);
   };
 
   const resetVerify = () => {
@@ -77,7 +85,7 @@ const App = () => {
     if (eval(expr) === 24) {
       console.log('YES WORKS!');
     } else {
-      console.log('NO WRONG!');
+      console.log('NO WRONG!, got ' + eval(expr));
     }
   };
 
@@ -104,6 +112,9 @@ const App = () => {
               id="outlined-basic"
               label="Fill in expression"
               variant="outlined"
+              onChange={(e) => {
+                handleInput(e.target.value.toString());
+              }}
             />
           </inputContainer>
         </div>
@@ -119,7 +130,7 @@ const App = () => {
             boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
             margin: '10px',
           }}
-          onClick={verify2}
+          onClick={handleVerify}
         >
           Click to verify!
         </Button>
