@@ -11,7 +11,7 @@ const DisplayResult = ({ result }) => {
 
   return (
     <div>
-      <div style={textStyle}>{result ? 'YAY works!' : 'Nope'}</div>
+      <div style={textStyle}>{result ? 'Correct!' : 'Nope, try again'}</div>
     </div>
   );
 };
