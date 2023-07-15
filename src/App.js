@@ -34,7 +34,7 @@ const getNums = () => {
   return nums;
 };
 
-const verifyPermutation = (nums) => {
+const generateHint = (nums) => {
   const ops = ['+', '-', '*', '/'];
   for (let i = 0; i < 4; i++) {
     for (let j = 0; j < 4; j++) {
@@ -49,21 +49,11 @@ const verifyPermutation = (nums) => {
   return false;
 };
 
-const verifyNums = (nums) => {
-  const perms = [];
-  generatePermutations(nums, [], perms);
-  // Loop through each permutation
-  for (const perm of perms) {
-    // console.log(perm); // Print each permutation as a separate array
-    if (verifyPermutation(perm)) return true;
-  }
-  return false;
-};
-
 const App = () => {
   const [nums, setNums] = useState([]);
   const [result, setResult] = useState(null);
   const [userExpr, setUserExpr] = useState('');
+  const [textValue, setTextValue] = useState('');
 
   const handleVerify = () => {
     if (eval(userExpr) === 24) {
@@ -79,14 +69,11 @@ const App = () => {
     setUserExpr(expr);
   };
 
-  const resetVerify = () => {
-    setResult(null);
-  };
-
   const generateNewNums = () => {
     const newNums = getNums();
     setNums(newNums);
-    resetVerify();
+    setTextValue('');
+    setResult(null); // reset result
   };
 
   return (
@@ -106,7 +93,9 @@ const App = () => {
               id="outlined-basic"
               label="Fill in expression"
               variant="outlined"
+              value={textValue}
               onChange={(e) => {
+                setTextValue(e.target.value.toString());
                 handleInput(e.target.value.toString());
               }}
             />
