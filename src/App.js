@@ -112,7 +112,11 @@ const App = () => {
       </div>
 
       <div style={styles.buttonContainer}>
-        <Button style={styles.verifyButton} onClick={handleVerify}>
+        <Button
+          disabled={!started}
+          style={styles.verifyButton}
+          onClick={handleVerify}
+        >
           Verify
         </Button>
 
