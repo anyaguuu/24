@@ -1,14 +1,6 @@
 import React, { useState } from 'react';
-import Cards from './cards';
-import { VerifyButton, GenerateButton } from './buttonstyles';
 import { cardContainer, card } from './cardstyles';
-import {
-  titleContainer,
-  title,
-  resultContainer,
-  result,
-  inputContainer,
-} from './homestyles';
+import { titleContainer, title } from './homestyles';
 import DisplayResult from './displayResult';
 import { Button, TextField } from '@mui/material';
 
