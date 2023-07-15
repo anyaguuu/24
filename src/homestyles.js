@@ -20,3 +20,8 @@ export const result = {
   fontWeight: 'bold',
   color: 'black',
 };
+
+export const inputContainer = {
+  textAlign: 'center',
+  marginBottom: '20px',
+};

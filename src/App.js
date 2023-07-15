@@ -2,8 +2,14 @@ import React, { useState } from 'react';
 import Cards from './cards';
 import { VerifyButton, GenerateButton } from './buttonstyles';
 import { cardContainer, card } from './cardstyles';
-import { titleContainer, title, resultContainer, result } from './homestyles';
-import { Button, getFilledInputUtilityClass } from '@mui/material';
+import {
+  titleContainer,
+  title,
+  resultContainer,
+  result,
+  inputContainer,
+} from './homestyles';
+import { Button, TextField } from '@mui/material';
 
 const generatePermutations = (arr, perm = [], result = []) => {
   if (arr.length === 0) {
@@ -90,6 +96,16 @@ const App = () => {
           <div style={card}>{nums[1]}</div>
           <div style={card}>{nums[2]}</div>
           <div style={card}>{nums[3]}</div>
+        </div>
+
+        <div style={{ margin: '20px 20px 20px 20px' }}>
+          <inputContainer>
+            <TextField
+              id="outlined-basic"
+              label="Fill in expression"
+              variant="outlined"
+            />
+          </inputContainer>
         </div>
 
         <Button
