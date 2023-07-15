@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { cardContainer, card } from './cardstyles';
-import { titleContainer, title } from './homestyles';
-import DisplayResult from './displayResult';
 import { Button, TextField } from '@mui/material';
+import DisplayResult from './displayResult';
 
 const generatePermutations = (arr, perm = [], result = []) => {
   if (arr.length === 0) {
@@ -26,18 +24,20 @@ const getNums = () => {
   return nums;
 };
 
-const generateHint = (nums) => {
+const getHint = (nums) => {
   const ops = ['+', '-', '*', '/'];
   for (let i = 0; i < 4; i++) {
     for (let j = 0; j < 4; j++) {
       for (let k = 0; k < 4; k++) {
         const expression = `(${nums[0]} ${ops[i]} ${nums[1]}) ${ops[j]} (${nums[2]} ${ops[k]} ${nums[3]})`;
         if (eval(expression) === 24) {
+          console.log('answer exists: ', expression);
           return true;
         }
       }
     }
   }
+  console.log('no answer');
   return false;
 };
 
@@ -49,10 +49,8 @@ const App = () => {
 
   const handleVerify = () => {
     if (eval(userExpr) === 24) {
-      console.log('YES!');
       setResult(true);
     } else {
-      console.log('NO, ', eval(userExpr));
       setResult(false);
     }
   };
@@ -65,70 +63,128 @@ const App = () => {
     const newNums = getNums();
     setNums(newNums);
     setTextValue('');
-    setResult(null); // reset result
+    setResult(null);
   };
 
   return (
-    <div>
-      <div style={titleContainer}>
-        <h1 style={title}>Play 24!</h1>
-        <div style={cardContainer}>
-          <div style={card}>{nums[0]}</div>
-          <div style={card}>{nums[1]}</div>
-          <div style={card}>{nums[2]}</div>
-          <div style={card}>{nums[3]}</div>
-        </div>
+    <div style={styles.container}>
+      <h1 style={styles.title}>Play 24!</h1>
+      <div style={styles.cardContainer}>
+        {nums.map((num, index) => (
+          <div key={index} style={styles.card}>
+            {num}
+          </div>
+        ))}
+      </div>
 
-        <div style={{ margin: '20px 20px 20px 20px' }}>
-          <inputContainer>
-            <TextField
-              id="outlined-basic"
-              label="Fill in expression"
-              variant="outlined"
-              value={textValue}
-              onChange={(e) => {
-                setTextValue(e.target.value.toString());
-                handleInput(e.target.value.toString());
-              }}
-            />
-          </inputContainer>
-        </div>
-
-        <Button
-          style={{
-            backgroundColor: '#f44336', // Green color
-            color: 'white',
-            borderRadius: '8px',
-            padding: '12px 24px',
-            fontSize: '16px',
-            fontWeight: 'bold',
-            boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
-            margin: '10px',
+      <div style={styles.inputContainer}>
+        <TextField
+          id="outlined-basic"
+          label="Fill in expression"
+          variant="outlined"
+          value={textValue}
+          onChange={(e) => {
+            setTextValue(e.target.value.toString());
+            handleInput(e.target.value.toString());
           }}
-          onClick={handleVerify}
-        >
-          Click to verify!
+        />
+      </div>
+
+      <div style={styles.buttonContainer}>
+        <Button style={styles.verifyButton} onClick={handleVerify}>
+          Verify
         </Button>
 
-        <Button
-          style={{
-            backgroundColor: '#4caf50', // Green color
-            color: 'white',
-            borderRadius: '8px',
-            padding: '12px 24px',
-            fontSize: '16px',
-            fontWeight: 'bold',
-            boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
-            margin: '10px',
-          }}
-          onClick={generateNewNums}
-        >
+        <Button style={styles.generateButton} onClick={generateNewNums}>
           Generate New Numbers
         </Button>
-        <div>{result !== null && <DisplayResult result={result} />}</div>
+      </div>
+
+      <div style={styles.resultContainer}>
+        {result !== null && <DisplayResult result={result} />}
       </div>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '100vh',
+    background: '#f5f5f5',
+    padding: '40px',
+    fontFamily: 'Arial, sans-serif',
+  },
+  title: {
+    fontSize: '48px',
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: '40px',
+  },
+  cardContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: '40px',
+  },
+  card: {
+    width: '80px',
+    height: '80px',
+    margin: '0 10px',
+    background: '#ddd',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: '36px',
+    fontWeight: 'bold',
+    color: '#555',
+    borderRadius: '50%',
+  },
+  inputContainer: {
+    marginBottom: '40px',
+  },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: '40px',
+  },
+  verifyButton: {
+    backgroundColor: '#4caf50',
+    color: 'white',
+    borderRadius: '8px',
+    padding: '12px 24px',
+    fontSize: '16px',
+    fontWeight: 'bold',
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+    margin: '0 10px',
+    minWidth: '150px',
+    transition: 'background-color 0.3s ease',
+    '&:hover': {
+      backgroundColor: '#45a049',
+    },
+  },
+  generateButton: {
+    backgroundColor: '#2196f3',
+    color: 'white',
+    borderRadius: '8px',
+    padding: '12px 24px',
+    fontSize: '16px',
+    fontWeight: 'bold',
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+    margin: '0 10px',
+    minWidth: '200px',
+    transition: 'background-color 0.3s ease',
+    '&:hover': {
+      backgroundColor: '#1e88e5',
+    },
+  },
+  resultContainer: {
+    textAlign: 'center',
+  },
 };
 
 export default App;
