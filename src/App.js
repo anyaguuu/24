@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, TextField } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Button, TextField, Box } from '@mui/material';
 import DisplayResult from './displayResult';
 
 const generatePermutations = (arr, perm = [], result = []) => {
@@ -24,29 +24,42 @@ const getNums = () => {
   return nums;
 };
 
+// total # solutions
 const getNumSolutions = (nums) => {
   let numSolutions = 0;
-  const ops = ['+', '-', '*', '/'];
+  const perms = [];
+  generatePermutations(nums, [], perms);
+  perms.forEach((perm) => {
+    console.log('testing perm: ' + perm);
+    if (testOnePerm(perm)) numSolutions++;
+  });
+  console.log('num solutions: ' + numSolutions);
+  return numSolutions;
+};
+
+// check if one solution exists
+const testOnePerm = (nums) => {
+  const ops = ['+', '-', '*', '/', '**'];
   for (let i = 0; i < 4; i++) {
     for (let j = 0; j < 4; j++) {
       for (let k = 0; k < 4; k++) {
         const expression = `(${nums[0]} ${ops[i]} ${nums[1]}) ${ops[j]} (${nums[2]} ${ops[k]} ${nums[3]})`;
         if (eval(expression) === 24) {
           console.log('answer exists: ', expression);
-          numSolutions++;
+          return true;
         }
       }
     }
   }
-  console.log('no answer');
-  return numSolutions;
+  console.log('no solution');
+  return false;
 };
 
-const calcDifficulty = (numSolutions) => {
+const getLevel = (numSolutions) => {
   if (numSolutions == 0) return 0; // unsolvable
-  else if (numSolutions >= 10) return 1; // easy
-  else if (nunSolutions >= 5) return 2; // medium
-  else return 3; // hard
+  else if (numSolutions >= 5) return 1; // easy
+  else if (numSolutions >= 3) return 2; // medium
+  else return 3; // hard (1 solution or unsolveable)
 };
 
 const App = () => {
@@ -55,6 +68,14 @@ const App = () => {
   const [userExpr, setUserExpr] = useState('');
   const [textValue, setTextValue] = useState('');
   const [started, setStarted] = useState(false);
+  const [level, setLevel] = useState(0);
+
+  // update level
+  //   useEffect(() => {
+  //     const newLevel = getLevel(getNumSolutions(nums));
+  //     setLevel(newLevel);
+  //     console.log('new level: ' + newLevel);
+  //   }, [nums]);
 
   const checkAllNumsIncluded = () => {
     const extractIntegers = (expression) => {
@@ -92,11 +113,27 @@ const App = () => {
     setNums(newNums);
     setTextValue('');
     setResult(null);
+    const newLevel = getLevel(getNumSolutions(newNums));
+    setLevel(newLevel);
+    console.log('new level: ' + newLevel);
   };
 
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Play 24!</h1>
+      <div style={styles.levelContainer}>
+        <div style={styles.level}>
+          {started && (
+            <Box sx={{ display: 'inline' }}>
+              {level === 0 || level === 3
+                ? 'Difficult'
+                : level === 2
+                ? 'Medium'
+                : 'Easy'}
+            </Box>
+          )}
+        </div>
+      </div>
       <div style={styles.cardContainer}>
         {nums.map((num, index) => (
           <div key={index} style={styles.card}>
@@ -163,7 +200,18 @@ const styles = {
     fontSize: '48px',
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: '40px',
+    marginBottom: '20px',
+  },
+  levelContainer: {
+    display: 'flex',
+    justifyContent: 'left',
+    alignItems: 'left',
+    margin: '10px 0px 20px 0px', // top right bottom left
+  },
+  level: {
+    fontSize: '20px',
+    alignItems: 'center',
+    fontFamily: 'Arial, sans-serif',
   },
   cardContainer: {
     display: 'flex',
