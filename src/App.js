@@ -70,12 +70,12 @@ const App = () => {
   const [started, setStarted] = useState(false);
   const [level, setLevel] = useState(0);
 
-  // update level
-  //   useEffect(() => {
-  //     const newLevel = getLevel(getNumSolutions(nums));
-  //     setLevel(newLevel);
-  //     console.log('new level: ' + newLevel);
-  //   }, [nums]);
+  //   update level
+  useEffect(() => {
+    const newLevel = getLevel(getNumSolutions(nums));
+    setLevel(newLevel);
+    console.log('new level: ' + newLevel);
+  }, [nums]);
 
   const checkAllNumsIncluded = () => {
     const extractIntegers = (expression) => {
@@ -99,7 +99,11 @@ const App = () => {
         setResult(false);
       }
     } catch (e) {
-      setResult('Invalid input');
+      if (userExpr.toLowerCase() === 'x') {
+        if (level === 0) setResult(true);
+      } else {
+        setResult('Invalid input');
+      }
     }
   };
 
@@ -162,7 +166,7 @@ const App = () => {
       <div style={styles.inputContainer}>
         <TextField
           id="outlined-basic"
-          label="Fill in expression"
+          label="Fill in expression or x"
           variant="outlined"
           value={textValue}
           InputProps={{ readOnly: !started }}
