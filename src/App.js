@@ -71,13 +71,14 @@ const App = () => {
   const [level, setLevel] = useState(0);
   const [streak, setStreak] = useState(0);
 
-  localStorage.setItem('streak', '0'); // store in local storage
+  localStorage.setItem('streak', JSON.stringify(0)); // store in local storage
 
   useEffect(() => {
     // retrieve from local storage
-    const storedStreak = localStorage.getItem('streak');
+    const storedStreak = JSON.parse(localStorage.getItem('streak'));
     if (storedStreak) {
       setStreak(Number(storedStreak));
+      console.log('streak is ', streak + 0);
     }
   }, []);
 
