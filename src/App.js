@@ -117,11 +117,11 @@ const App = () => {
           style={styles.verifyButton}
           onClick={handleVerify}
         >
-          Verify
+          Verify ✔️
         </Button>
 
         <Button style={styles.generateButton} onClick={generateNewNums}>
-          Generate New Numbers
+          {started ? 'Generate 🔄 ' : 'Generate New Numbers 🔄 '}
         </Button>
       </div>
 
