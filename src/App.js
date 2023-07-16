@@ -24,7 +24,8 @@ const getNums = () => {
   return nums;
 };
 
-const getHint = (nums) => {
+const getNumSolutions = (nums) => {
+  let numSolutions = 0;
   const ops = ['+', '-', '*', '/'];
   for (let i = 0; i < 4; i++) {
     for (let j = 0; j < 4; j++) {
@@ -32,13 +33,20 @@ const getHint = (nums) => {
         const expression = `(${nums[0]} ${ops[i]} ${nums[1]}) ${ops[j]} (${nums[2]} ${ops[k]} ${nums[3]})`;
         if (eval(expression) === 24) {
           console.log('answer exists: ', expression);
-          return true;
+          numSolutions++;
         }
       }
     }
   }
   console.log('no answer');
-  return false;
+  return numSolutions;
+};
+
+const calcDifficulty = (numSolutions) => {
+  if (numSolutions == 0) return 0; // unsolvable
+  else if (numSolutions >= 10) return 1; // easy
+  else if (nunSolutions >= 5) return 2; // medium
+  else return 3; // hard
 };
 
 const App = () => {
