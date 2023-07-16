@@ -69,13 +69,24 @@ const App = () => {
   const [textValue, setTextValue] = useState('');
   const [started, setStarted] = useState(false);
   const [level, setLevel] = useState(0);
+  const [streak, setStreak] = useState(0);
+
+  localStorage.setItem('streak', '0'); // store in local storage
+
+  useEffect(() => {
+    // retrieve from local storage
+    const storedStreak = localStorage.getItem('streak');
+    if (storedStreak) {
+      setStreak(Number(storedStreak));
+    }
+  }, []);
 
   //   update level
-  useEffect(() => {
-    const newLevel = getLevel(getNumSolutions(nums));
-    setLevel(newLevel);
-    console.log('new level: ' + newLevel);
-  }, [nums]);
+  // useEffect(() => {
+  //   const newLevel = getLevel(getNumSolutions(nums));
+  //   setLevel(newLevel);
+  //   console.log('new level: ' + newLevel);
+  // }, [nums]);
 
   const checkAllNumsIncluded = () => {
     const extractIntegers = (expression) => {
@@ -95,14 +106,24 @@ const App = () => {
     try {
       if (eval(userExpr) === 24 && checkAllNumsIncluded()) {
         setResult(true);
+        const newStreak = streak + 1;
+        localStorage.setItem('streak', newStreak.toString());
+        setStreak(newStreak);
+        console.log('new streak = ' + newStreak);
       } else {
         setResult(false);
       }
     } catch (e) {
       if (userExpr.toLowerCase() === 'x') {
-        if (level === 0) setResult(true);
+        if (level === 0) {
+          setResult(true);
+          const newStreak = streak + 1;
+          localStorage.setItem('streak', newStreak.toString());
+          setStreak(newStreak);
+          console.log('new streak = ' + newStreak);
+        }
       } else {
-        setResult('Invalid input');
+        setResult(false);
       }
     }
   };
@@ -125,6 +146,9 @@ const App = () => {
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Play 24!</h1>
+      <div style={styles.streakContainer}>
+        <div style={styles.streak}>Streak: {streak}</div>
+      </div>
       <div style={styles.levelContainer}>
         <div style={styles.level}>
           {started && (
@@ -222,6 +246,20 @@ const styles = {
     fontWeight: 'bold',
     color: '#333',
     marginBottom: '20px',
+  },
+  streakContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: '20px',
+  },
+  streak: {
+    fontSize: '24px',
+    fontWeight: 'bold',
+    color: '#555',
+    padding: '8px 16px',
+    backgroundColor: '#f5f5f5',
+    borderRadius: '8px',
   },
   levelContainer: {
     display: 'flex',
