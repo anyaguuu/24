@@ -56,7 +56,7 @@ const testOnePerm = (nums) => {
 };
 
 const getLevel = (numSolutions) => {
-  if (numSolutions == 0) return 0; // unsolvable
+  if (numSolutions === 0) return 0; // unsolvable
   else if (numSolutions >= 5) return 1; // easy
   else if (numSolutions >= 3) return 2; // medium
   else return 3; // hard (1 solution or unsolveable)
