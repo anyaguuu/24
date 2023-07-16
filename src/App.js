@@ -124,7 +124,24 @@ const App = () => {
       <div style={styles.levelContainer}>
         <div style={styles.level}>
           {started && (
-            <Box sx={{ display: 'inline' }}>
+            <Box
+              sx={{
+                display: 'inline',
+                backgroundColor:
+                  level === 0 || level === 3
+                    ? '#f44336' // Red color
+                    : level === 2
+                    ? '#ffc107' // Amber color
+                    : '#4caf50', // Green color
+                color: 'white',
+                padding: '8px 16px',
+                borderRadius: '4px',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                textTransform: 'uppercase',
+                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+              }}
+            >
               {level === 0 || level === 3
                 ? 'Difficult'
                 : level === 2
@@ -204,15 +221,19 @@ const styles = {
   },
   levelContainer: {
     display: 'flex',
-    justifyContent: 'left',
-    alignItems: 'left',
-    margin: '10px 0px 20px 0px', // top right bottom left
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: '20px',
   },
   level: {
-    fontSize: '20px',
-    alignItems: 'center',
-    fontFamily: 'Arial, sans-serif',
+    fontSize: '24px',
+    fontWeight: 'bold',
+    color: '#555',
+    padding: '8px 16px',
+    backgroundColor: '#f5f5f5',
+    borderRadius: '8px',
   },
+
   cardContainer: {
     display: 'flex',
     justifyContent: 'center',
