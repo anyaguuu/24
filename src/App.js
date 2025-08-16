@@ -219,14 +219,6 @@ const App = () => {
       <div style={styles.resultContainer}>
         {result !== null && <DisplayResult result={result} />}
       </div>
-
-      <span style={styles.inspiredText}>
-        inspired by{' '}
-        <a href="https://24.zawie.io" style={{ ...styles.link, color: '#777' }}>
-          zawie
-        </a>
-        &lt;3
-      </span>
     </div>
   );
 };
